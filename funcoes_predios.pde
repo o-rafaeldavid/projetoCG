@@ -1,6 +1,7 @@
 void predio(int nPredio, PVector P, float quadLen, float altura, color corPredio, color corJanelas, int[][] janelas){
   float half_quadLen = quadLen * 0.5;
   int distancia = 2;
+  int half_distancia = distancia / 2;
 
   pushMatrix();
     t(P);
@@ -62,7 +63,7 @@ void predio(int nPredio, PVector P, float quadLen, float altura, color corPredio
               for(int i = 0; i < janelas[face][1]; i++){
                 pushMatrix();
                   translacao(0, -j, 0);
-                  float k = i * 4;
+                  int k = i * 4;
                   //DEPTH DAS JANELAS
                   for(int g = 0; g < 2; g++){
                     // > depths baixo e cima
@@ -125,7 +126,7 @@ void predio(int nPredio, PVector P, float quadLen, float altura, color corPredio
               
               if(janelas[face][0] == 1){
                 for(int i = 0; i < janelas[face][1]; i++){
-                  float k = i * 4;
+                  int k = i * 4;
                   //por alguma razão, não dá para aplicar o translate num contour, ou dá erro sla (provavelmente pq n funciona um translate dentro de um beginshape
                   beginContour();
                     vertice(0, -j + 2 + k, -lj);
@@ -159,7 +160,7 @@ void predio(int nPredio, PVector P, float quadLen, float altura, color corPredio
     // ==========================================================================
     else if(nPredio == 1){
       pushStyle();
-        fill(255, 0, 0);
+        fill(corPredio);
         //stroke(0);
         float[] lado = {quadLen - 3 * distancia, quadLen};
         float[] half_lado = {lado[0] * 0.5, lado[1] * 0.5};
@@ -184,9 +185,7 @@ void predio(int nPredio, PVector P, float quadLen, float altura, color corPredio
         }
 
 
-
-        fill(0, 255, 0);
-
+        /////////////////////////////////////////////////////////////////////////////
         //geração das laterais com janelas
         for(int laterais = 0; laterais < 2; laterais++){
           if(janelas[laterais][0] == 1){
@@ -199,8 +198,9 @@ void predio(int nPredio, PVector P, float quadLen, float altura, color corPredio
                 vertice(half_lado[0],  -altura, 0);
                 vertice(-half_lado[0], -altura, 0);
 
+                //geração dos buracos das janelas
                 for(int i = 0; i < janelas[laterais][1]; i++){
-                  float k = i * 4;
+                  int k = i * 4;
                   beginContour();
                     vertice(-half_lado[0], -altura + distancia + k,     0);
                     vertice(half_lado[0],  -altura + distancia + k,     0);
@@ -209,10 +209,84 @@ void predio(int nPredio, PVector P, float quadLen, float altura, color corPredio
                   endContour();
                 }
               endShape(CLOSE);
-              
+
+              //depth das Janelas laterais
+              for(int depthJanelas = 0; depthJanelas < janelas[laterais][1]; depthJanelas++){
+                float k = depthJanelas * 4;
+                for(int j = 1; j <= 2; j++){
+                  float yDepth = -altura + j * distancia + k;
+                  pushMatrix();
+                    translacao(0, yDepth, 0);
+                    beginShape();
+                      vertice(half_lado[0],  0, 0);
+                      vertice(half_lado[0],  0, distancia);
+                      vertice(half_lado[0] - half_distancia,  0, distancia);
+                      vertice(half_lado[0] - half_distancia,  0, half_distancia);
+
+                      vertice(-half_lado[0] + half_distancia,  0, half_distancia);
+                      vertice(-half_lado[0] + half_distancia,  0, distancia);
+                      vertice(-half_lado[0], 0, distancia);
+                      vertice(-half_lado[0], 0, 0);
+                    endShape(CLOSE);
+                  popMatrix();
+
+                  float centerPosX = pow(-1, j) * (half_lado[0] + (half_lado[0] - half_distancia)) * 0.5f;
+                  float centerPosY = -altura + 1.5f * distancia + k;
+                  pushMatrix();
+                    quadriVOX(new PVector(centerPosX, centerPosY, distancia), new float[]{half_distancia, distancia}, new PVector(HALF_PI, 0, 0));
+                  popMatrix();
+                }
+              }
+
+              /////////////////
+              //geração da continuação das paredes das laterais para as "frentes"
+              for(int frentes = 0; frentes < 2; frentes++){
+                pushMatrix();
+                  translacao(pow(-1, frentes) * half_lado[0], 0, 0);
+                  beginShape();
+
+                    //meia parede
+                    vertice(0, 0,       0);
+                    vertice(0, 0,       half_lado[1]);
+                    vertice(0, -altura, half_lado[1]);
+                    vertice(0, -altura, 0);
+
+                    
+                    //geração dos buracos das janelas (nas frentes) (numa ponta)
+                    for(int i = 0; i < janelas[laterais][1]; i++){
+                      float k = i * 4;
+                      beginContour();
+                        vertice(0, -altura + distancia + k,     0);
+                        vertice(0, -altura + distancia + k,     distancia);
+                        vertice(0, -altura + 2 * distancia + k, distancia);
+                        vertice(0, -altura + 2 * distancia + k, 0);
+                      endContour();
+                    }
+
+                    // buraco central da parede (na outra ponta da meia parede)
+                    beginContour();
+                      vertice(0, 0,       half_lado[1] - half_distancia);
+                      vertice(0, 0,       half_lado[1] - 3 * half_distancia);
+                      vertice(0, -altura + distancia,       half_lado[1] - 3 * half_distancia);
+                      vertice(0, -altura + distancia,       half_lado[1] - half_distancia);
+                    endContour();
+                  endShape(CLOSE);
+
+                  //depth do buraco central da meia parede
+                  beginShape();
+                    
+                  endShape(CLOSE);
+                popMatrix();
+              }
             popMatrix();
           }
         }
+
+        //caixa que define a 'janela' (cor)
+        pushStyle();
+          fill(corJanelas);
+          caixaVOX(new PVector(0, -altura * 0.5f, 0), new PVector(lado[0] - distancia, altura - distancia, lado[1] - distancia));
+        popStyle();
       popStyle();
     }
   popMatrix();

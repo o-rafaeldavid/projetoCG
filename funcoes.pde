@@ -29,46 +29,26 @@ void caixa(PVector P, PVector dim){
         rotateY(i * PI);
         float[] a = {dim.y, dim.z};
         quadri(new PVector(Q.x, 0, 0), a, new PVector(0, 0, HALF_PI));
-        /*
-        beginShape(QUADS);
-          vertex(Q.x, Q.y, Q.z);
-          vertex(Q.x, -Q.y, Q.z);
-          vertex(Q.x, -Q.y, -Q.z);
-          vertex(Q.x, Q.y, -Q.z);
-        endShape();
-        */
       popMatrix();
-      //ACES PERPENDICULARES A z
+      //FACES PERPENDICULARES A z
       pushMatrix();
         rotateY(i * PI);
         float[] b = {dim.x, dim.y};
         quadri(new PVector(0, 0, Q.z), b, new PVector(HALF_PI, 0, 0));
-        /*
-        beginShape(QUADS);
-          vertex(Q.x, Q.y, Q.z);
-          vertex(Q.x, -Q.y, Q.z);
-          vertex(-Q.x, -Q.y, Q.z);
-          vertex(-Q.x, Q.y, Q.z);
-        endShape();
-        */
       popMatrix();
-      //ACES PERPENDICULARES A y
+      //FACES PERPENDICULARES A y
       pushMatrix();
         rotateX(i * PI);
         float[] c = {dim.x, dim.z};
         quadri(new PVector(0, Q.y, 0), c, new PVector(0, 0, 0));
-        /*
-        beginShape(QUADS);
-          vertex(Q.x, Q.y, Q.z);
-          vertex(-Q.x, Q.y, Q.z);
-          vertex(-Q.x, Q.y, -Q.z);
-          vertex(Q.x, Q.y, -Q.z);
-        endShape();
-        */
       popMatrix();
     }
     
   popMatrix();
+}
+
+void caixaVOX(PVector P, PVector dim){
+  caixa(new PVector(P.x * vox, P.y * vox, P.z * vox), new PVector(dim.x * vox, dim.y * vox, dim.z * vox));
 }
 
 // Função tipo translate() para receber um PVector e ir logo direto

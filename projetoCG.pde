@@ -15,7 +15,7 @@ void setup(){
 
 void draw(){
   noStroke();
-  background(#1B1D38);
+  background(#212445);
   //lights();
   eixos();
   
