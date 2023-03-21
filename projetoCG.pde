@@ -1,19 +1,27 @@
 void settings(){
-  size(1000, 1000, P3D);
+  size(1280, 720, P3D);
   
 }
 
+float upX = 0, upZ = 0;
 void setup(){
-  ortho(-width * .5, width * .5, -height * .5, height * .5, 0, renderDistance);
+  ortho(-width * .7f, width * .7f, -height * .7f, height * .7f, -1, renderDistance);
   
   camera(
-  500, -500, 500,
+  700, -500, 700,
   0, 0, 0,
   0, 1, 0);
   
+  mao[0] = loadImage("cursors/mao_aberta.png");
+  mao[1] = loadImage("cursors/mao_fechada.png");
 }
 
 void draw(){
+
+  applyMatrix(matrizAplicavel);
+  applyMatrix(matrizRX);
+  applyMatrix(matrizRZ);
+
   noStroke();
   background(#212445);
   //lights();
@@ -49,14 +57,78 @@ void draw(){
   //quadri(new PVector(0, 0, 0), a, new PVector(0, 0, 0));
   //caixa(new PVector(0, 0, 0), new PVector(vox, 2 * vox, 3 * vox));
   //filter(DILATE);
+
+  if(keys[CONTROL]){
+    if(mouseButton == LEFT && mousePressed) cursor(mao[1]);
+    else cursor(mao[0]);
+  }
+
+  //theta += 0.01f;
+  matrizRX = new PMatrix3D(
+    1,  0, 0, 0,
+    0, cos(psi), -sin(psi), 0,
+    0, sin(psi), cos(psi), 0,
+    0, 0, 0, 1
+  );
+
+  //omega += 0.01f;
+  matrizRZ = new PMatrix3D(
+    cos(phi),  -sin(phi), 0, 0,
+    sin(phi), cos(phi), 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1
+  );
+
+  if(keys[LEFT] || keys[RIGHT]){
+    if(keys[LEFT]){
+      upZ += 0.01f;
+      upX -= 0.01f;
+    }
+    else{
+      upZ -= 0.01f;
+      upX += 0.01f;
+    }
+    camera(
+    700, -500, 700,
+    0,   0,    0,
+    upX, 1,    upZ);
+  }
 }
 
 void keyPressed(){
   keys[keyCode] = true;
+
+  
 }
 
 void keyReleased(){
   keys[keyCode] = false;
   
   if(key == 'f' || key == 'F') printCamera();
+
+  if(keyCode == CONTROL) cursor(ARROW);
+}
+
+void mouseDragged(){
+  if(keys[CONTROL]){
+
+    if(mouseButton == LEFT) theta += map(mouseX - pmouseX, 0, 1, 0, PI * 0.001f);
+  }
+
+  atualizarMatrix();
+}
+
+void mouseWheel(MouseEvent e) {
+  escala -= e.getCount();
+  if(escala <= 0) escala = 1;
+  atualizarMatrix();
+}
+
+void atualizarMatrix(){
+  matrizAplicavel = new PMatrix3D(
+    cos(theta),  0, sin(theta), 0,
+    0,         1, 0,        0,
+    -sin(theta), 0, cos(theta) , 0,
+    0,         0, 0,        1.0f / escala
+  );
 }

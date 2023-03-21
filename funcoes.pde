@@ -66,6 +66,11 @@ void vertice(float x, float y, float z){
   vertex(x * vox, y * vox, z * vox);
 }
 
+// Função tipo point() onde faz já a conversão para vox (DEBUG)
+void ponto(float x, float y, float z){
+  point(x * vox, y * vox, z * vox);
+}
+
 
 ////
 
