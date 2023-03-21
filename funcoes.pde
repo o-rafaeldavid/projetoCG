@@ -85,3 +85,44 @@ void eixos(){
     line(0, 0, 0, 0, 0, 1000);
   popStyle();
 }
+
+
+/////////////////////////////////////////////////////////
+///////////////////
+// FUNÇÕES PARA MANIPULAÇÃO DA CÂMERA
+
+  //define camera
+void setCamera(){
+  camera(
+  1000, py, 1000,
+  0,   yLookAt,    0,
+  upX, 1,    upZ);
+}
+
+  //gira a camera perante o eixo da direção do olhar
+void tiltCamera(){
+  if(keys[LEFT] || keys[RIGHT]){
+    if(keys[LEFT]){
+      upZ += incPY;
+      upX -= incPY;
+    }
+    else{
+      upZ -= incPY;
+      upX += incPY;
+    }
+
+    if(upZ > limitesUp[1]) upZ = limitesUp[1];
+    else if(upZ < limitesUp[0]) upZ = limitesUp[0];
+
+    if(upX > limitesUp[1]) upX = limitesUp[1];
+    else if(upX < limitesUp[0]) upX = limitesUp[0];
+  }
+}
+
+  //muda a posição y de onde olha (direção)
+void yLookCamera(){
+  if(keys[UP] || keys[DOWN]){
+    if(keys[UP]) yLookAt -= incYLook;
+    else yLookAt += incYLook;
+  }
+}

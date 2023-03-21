@@ -1,4 +1,7 @@
-void predio(int nPredio, PVector P, float quadLen, float altura, color corPredio, color corJanelas, int[][] janelas){
+void predio(int nPredio, PVector Q, float[] dimsBase, float altura, color corPredio, color corJanelas, int[][] janelas){
+  PVector P = new PVector(Q.x * vox, Q.y * vox, Q.z * vox);
+
+  float quadLen = dimsBase[0];
   float half_quadLen = quadLen * 0.5;
   int distancia = 2;
   int half_distancia = distancia / 2;
@@ -160,10 +163,10 @@ void predio(int nPredio, PVector P, float quadLen, float altura, color corPredio
     // ==========================================================================
     else if(nPredio == 1){
       pushStyle();
-        fill(corPredio);
+       fill(corPredio);
         //noFill();
         //stroke(0);
-        float[] lado = {quadLen - 3 * distancia, quadLen};
+        float[] lado = {dimsBase[1], quadLen};
         float[] half_lado = {lado[0] * 0.5, lado[1] * 0.5};
 
         if(janelas == null){
