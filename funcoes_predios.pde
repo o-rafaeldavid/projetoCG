@@ -29,7 +29,7 @@ void predio(int nPredio, PVector Q, float[] dimsBase, float altura, color corPre
     // #0
     // ==========================================================================
     // ==========================================================================
-    if(nPredio == 0){
+    if(nPredio == 0 && showPredios){
       /*
         as janelas são definidas através deste array bi-dimensional
         (o primeiro valor ou é 0 ou é 1 e identifica se não há ou se há janelas, respetivamente,
@@ -161,7 +161,7 @@ void predio(int nPredio, PVector Q, float[] dimsBase, float altura, color corPre
     // #1
     // ==========================================================================
     // ==========================================================================
-    else if(nPredio == 1){
+    else if(nPredio == 1 && showPredios){
       pushStyle();
        fill(corPredio);
         //noFill();

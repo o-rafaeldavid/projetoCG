@@ -1,11 +1,12 @@
 boolean[] keys = new boolean[255]; //saber que keys estão a ser primidas (isto premite saber se estão a ser primidas ao mesmo tempo)
+boolean showPredios = true; //para debug (mostrar e não mostrar os prédios)
 
 float vox = 10; //unidade base do projeto
 
 float renderDistance = 1000 * vox;
 
 float incPY = 0.01f, incYLook = 3;
-float py = -500, yLookAt = 0; //variavel posição y camera e posição y para onde olha
+float py = -500, yLookAt = -200; //variavel posição y camera e posição y para onde olha
 float upX = 0, upZ = 0; //variaveis para criar uma rotação da câmera perante o eixo de observação (tilt)
 float[] limitesUp = {0, 0.5}; //limites relativos ao tilt (upX e upZ)
 
@@ -28,4 +29,34 @@ PMatrix3D matrixEscala = new PMatrix3D(
     0, 0, 0, 1
 );
 
-PImage[] mao = new PImage[2]; 
+PImage[] mao = new PImage[2];
+
+
+
+/*
+        SistemaCor é uma class que foi criada com o intuito de guardar esquemas de cor
+    para os prédios desde de elementos básicos de preenchimento (fill) para as paredes
+    e janelas, como também componentes de reação perante as luzes, emissive e specular
+
+    OBSERVAÇÃO: esta construção desta classe encontra-se na zona das variáveis para se entender
+    quais as componentes da mesma, visto que não ocupa tanto espaço
+*/
+class SistemaCor {
+    color emissive, specular, solida, janela;
+
+    SistemaCor(color emissive, color specular, color solida, color janela){
+        this.emissive = emissive;
+        this.specular = specular;
+        this.solida = solida;
+        this.janela = janela;
+    }
+}
+
+//criação dos sistemas de cor utilizados no projeto
+SistemaCor sistemaCiano, sistemaMagenta;
+
+
+
+Carro popo0, popo1;
+
+Estrada estrada;

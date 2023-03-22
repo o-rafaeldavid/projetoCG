@@ -1,6 +1,5 @@
 void settings(){
   size(1280, 720, P3D);
-  
 }
 
 void setup(){
@@ -10,6 +9,26 @@ void setup(){
   
   mao[0] = loadImage("cursors/mao_aberta.png");
   mao[1] = loadImage("cursors/mao_fechada.png");
+
+  sistemaCiano = new SistemaCor(
+    color(15, 0, 5),
+    color(255, 0, 255),
+    color(#0a1024),
+    color(0, 255, 255)
+  );
+
+  sistemaMagenta = new SistemaCor(
+    color(2, 0, 15),
+    color(100, 0, 255),
+    color(#150a24),
+    color(255, 0, 255)
+  );
+
+  estrada = new Estrada(new PVector(0, -.4f, 0), 10, 65);
+  popo0 = new Carro(new PVector(0, 0, -2.5), estrada, 0, 0.2, 0.02, color(#191a1f), color(#f07f1d));
+  popo1 = new Carro(new PVector(0, 0, 2.5), estrada, PI, 0.25, 0.03, color(#24212b), color(#36f01d));
+
+  //showPredios = false;
 }
 
 void draw(){
@@ -20,7 +39,7 @@ void draw(){
   noStroke();
   background(#212445);
   //lights();
-  eixos();
+  //eixos();
   
   
   ambientLight(255, 197, 255);
@@ -39,60 +58,111 @@ void draw(){
   popStyle();
 
 
-  emissive(15, 0, 5);
-  specular(255, 0, 255);
-  predio(0, new PVector(-30, 0, -30), new float[]{17.5}, 40, color(#0a1024), color(0, 255, 255),
+  //predio tipo 1 no bloco + proximo da camara (na pos inicial)
+  emissive(sistemaCiano.emissive);
+  specular(sistemaCiano.specular);
+  predio(0, new PVector(-19, 0, 15), new float[]{17.5}, 40, sistemaCiano.solida, sistemaCiano.janela,
   new int[][] {
-    {1, 7},
-    {1, 7},
+    {1, 6},
+    {1, 4},
+    {1, 3},
+    {1, 5}
+  });
+  
+  //prédio tipo 1 no centro do bloco mais próximo da câmara (pos inicial)
+  emissive(sistemaMagenta.emissive);
+  specular(sistemaMagenta.specular);
+  predio(1, new PVector(0, 0, 14), new float[]{17.5, 10}, 50, sistemaMagenta.solida, sistemaMagenta.janela,
+  new int[][] {
     {1, 7},
     {1, 7}
   });
-  
-  
-  emissive(2, 0, 15);
-  specular(100, 0, 255);
-  predio(1, new PVector(0, 0, 13.75), new float[]{17.5, 10}, 40, color(#150a24), color(255, 0, 255),
-  new int[][] {
-    {1, 7},
-    {1, 7}
-  });
-  
 
-  
-  push();
-    emissive(0, 0, 10);
-    specular(0, 0, 255);
-    translacao(0, -.4, 0);
-    fill(#767e8a);
-    caixaVOX(
-      new PVector(0, 0, 0),
-      new PVector(45, .8, 10)
-    );
 
-    int in = 1, out = 1;
-
-    do{
-      rotateY(map(out, 1, 2, 0, HALF_PI));
-      do{
-        caixaVOX(
-          new PVector(0, 0, in * 27.5),
-          new PVector(45, .8, 10)
-        );
-
-        caixaVOX(
-          new PVector(in * 27.5, 0, in * 27.5),
-          new PVector(10, .8, 10)
-        );
-        in *= -1;
-      }
-      while(in != 1);
-
-      out++;
+  //dois prédios tipo 1, o mais próximo da câmara (na sua pos inicial) é o menor e magenta e tem menos janelas
+  for(int i = 1; i <= 2; i++){
+    float h = 30;
+    int nJanelas = 4;
+    color cor = color(sistemaMagenta.solida);
+    color corJanela = color(sistemaMagenta.janela);
+    if(i == 1){
+      h = 40;
+      nJanelas = 7;
+      emissive(sistemaCiano.emissive);
+      specular(sistemaCiano.specular);
+      cor = color(sistemaCiano.solida);
+      corJanela = color(sistemaCiano.janela);
     }
-    while(out < 3);
-    
-  pop();
+    else{
+      emissive(sistemaMagenta.emissive);
+      specular(sistemaMagenta.specular);
+    }
+    pushMatrix();
+      translacao(17, 0, 5 + 4.375 * i + 6 * (i - 1));
+      rotateY(HALF_PI);
+      predio(1, new PVector(0, 0, 0), new float[]{17.5, 8.75}, h, cor, corJanela,
+      new int[][] {
+        {1, nJanelas},
+        {1, nJanelas}
+      });
+    popMatrix();
+  }
+  
+
+
+  //geração da estrada
+  emissive(0, 0, 10);
+  specular(0, 0, 255);
+  estrada.desenhar();
+  //estrada.debugPontos();
+
+  popo0.desenhar();
+  popo1.desenhar();
+
+  //bloco '2' (mais afastado da camera na pos inicial)
+  pushMatrix();
+    rotateY(PI);
+    emissive(sistemaCiano.emissive);
+    specular(sistemaCiano.specular);
+    predio(0, new PVector(-3, 0, 10), new float[]{10}, 45, sistemaCiano.solida, sistemaCiano.janela,
+    new int[][] {
+      {1, 7},
+      {1, 7},
+      {1, 5},
+      {1, 5}
+    });
+    predio(0, new PVector(-3, 0, 22), new float[]{10}, 68, sistemaCiano.solida, sistemaCiano.janela,
+    new int[][] {
+      {1, 7},
+      {1, 10},
+      {1, 7},
+      {1, 13}
+    });
+    predio(0, new PVector(-19, 0, 17), new float[]{16}, 50, sistemaMagenta.solida, sistemaMagenta.janela,
+    new int[][] {
+      {1, 7},
+      {1, 7},
+      {1, 7},
+      {1, 7}
+    });
+    push();
+      
+      tVox(new PVector(10, 0, 16.5));
+      rotateY(PI);
+      predio(1, new PVector(0, 0, 0), new float[]{20, 11}, 60, sistemaCiano.solida, sistemaCiano.janela,
+        new int[][] {
+          {1, 12},
+          {1, 7}
+        });
+      tVox(new PVector(-11.5, 0, 0));
+      predio(1, new PVector(0, 0, 0), new float[]{20, 11}, 45, sistemaMagenta.solida, sistemaMagenta.janela,
+        new int[][] {
+          {1, 5},
+          {1, 7}
+        });
+    pop();
+  popMatrix();
+  
   
   //filter(DILATE);
 

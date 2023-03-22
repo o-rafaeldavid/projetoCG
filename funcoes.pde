@@ -56,6 +56,10 @@ void t(PVector P){
   translate(P.x, P.y, P.z);
 }
 
+void tVox(PVector P){
+  translate(P.x * vox, P.y * vox, P.z * vox);
+}
+
 // Função tipo translate() onde faz já a conversão para vox (a unidade básica > ver 'vars.pde':3)
 void translacao(float x, float y, float z){
   translate(x * vox, y * vox, z * vox);
@@ -71,6 +75,16 @@ void ponto(float x, float y, float z){
   point(x * vox, y * vox, z * vox);
 }
 
+// Função tipo line() onde faz já a conversão para vox (DEBUG)
+void linha(float x, float y, float z, float a, float b, float c){
+  line(x * vox, y * vox, z * vox, a * vox, b * vox, c * vox);
+}
+
+// Funcao tipo dist para pvector
+float distancia(PVector P, PVector Q){
+  float f = dist(P.x, P.y, P.z, Q.x, Q.y, Q.z);
+  return f;
+}
 
 ////
 
@@ -126,3 +140,5 @@ void yLookCamera(){
     else yLookAt += incYLook;
   }
 }
+
+void vazio(){}
