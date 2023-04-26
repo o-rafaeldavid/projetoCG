@@ -1,4 +1,4 @@
-void predio(int nPredio, PVector Q, float[] dimsBase, float altura, color corPredio, color corJanelas, int[][] janelas){
+void predio(int nPredio, PVector Q, float[] dimsBase, float altura, SistemaCor sPredio, SistemaCor sJanela, int[][] janelas){
   PVector P = new PVector(Q.x * vox, Q.y * vox, Q.z * vox);
 
   float quadLen = dimsBase[0];
@@ -49,7 +49,11 @@ void predio(int nPredio, PVector Q, float[] dimsBase, float altura, color corPre
       // Geração das Faces e das Bases
       //
       pushStyle();
-        fill(corPredio);
+        fill(sPredio.diffuse);
+        emissive(sPredio.emissive);
+        specular(sPredio.specular);
+        ambient(sPredio.ambient);
+        shininess(sPredio.shininess);
         //stroke(0);
 
         //geração das faces
@@ -94,13 +98,11 @@ void predio(int nPredio, PVector Q, float[] dimsBase, float altura, color corPre
                   }
                   // > vidro
                   pushStyle();
-                    fill(corJanelas);
-                    /*
-                    pointLight(0, 255, 255, vox, 2 + k, -half_gapCimaJanela);
-                    pointLight(0, 255, 255, vox, k, -half_gapCimaJanela);
-                    pointLight(0, 255, 255, vox, k, half_gapCimaJanela);
-                    pointLight(0, 255, 255, vox, 2 + k, half_gapCimaJanela);
-                    */
+                    fill(sJanela.diffuse);
+                    emissive(sJanela.emissive);
+                    specular(sJanela.specular);
+                    ambient(sJanela.ambient);
+                    shininess(sJanela.shininess);
                     pushMatrix();
                       float depthVidro = -1;
                       translacao(depthVidro, 0, 0);
@@ -119,7 +121,10 @@ void predio(int nPredio, PVector Q, float[] dimsBase, float altura, color corPre
             
             
             
-            
+            emissive(sPredio.emissive);
+            specular(sPredio.specular);
+            ambient(sPredio.ambient);
+            shininess(sPredio.shininess);
             beginShape();
               vertice(0, 0, half_quadLen);
               vertice(0, -altura, half_quadLen);
@@ -162,8 +167,12 @@ void predio(int nPredio, PVector Q, float[] dimsBase, float altura, color corPre
     // ==========================================================================
     // ==========================================================================
     else if(nPredio == 1 && showPredios){
+      emissive(sPredio.emissive);
+      specular(sPredio.specular);
+      ambient(sPredio.ambient);
+      shininess(sPredio.shininess);
       pushStyle();
-       fill(corPredio);
+        fill(sPredio.diffuse);
         //noFill();
         //stroke(0);
         float[] lado = {dimsBase[1], quadLen};
@@ -308,7 +317,11 @@ void predio(int nPredio, PVector Q, float[] dimsBase, float altura, color corPre
 
         //caixa que define a 'janela' (cor)
         pushStyle();
-          fill(corJanelas);
+          fill(sJanela.diffuse);
+          ambient(sJanela.ambient);
+          emissive(sJanela.emissive);
+          specular(sJanela.specular);
+          shininess(sJanela.shininess);
           caixaVOX(new PVector(0, -altura * 0.5f, 0), new PVector(lado[0] - distancia, altura - distancia, lado[1] - distancia));
         popStyle();
       popStyle();

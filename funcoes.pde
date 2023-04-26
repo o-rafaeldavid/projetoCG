@@ -142,3 +142,97 @@ void yLookCamera(){
 }
 
 void vazio(){}
+
+
+/////////////////////////////////////////////////////////
+///////////////////
+//funcao usada no setup para definir os sistemas de cores/materias
+void definirSistemas(){
+  sistemaP[0] = new SistemaCor(
+    color(#0a1024),
+    color(15, 0, 5),
+    color(255, 0, 255),
+    color(#0a1024),
+    1
+  );
+
+  sistemaJ[0] = new SistemaCor(
+    color(0, 255, 255),
+    color(15, 0, 5),
+    color(255, 0, 255),
+    color(0, 255, 255),
+    10
+  );
+
+  /////////////////
+
+  sistemaP[1] = new SistemaCor(
+    color(#150a24),
+    color(2, 0, 15),
+    color(100, 0, 255),
+    color(#150a24),
+    1
+  );
+
+  sistemaJ[1] = new SistemaCor(
+    color(255, 0, 255),
+    color(2, 0, 15),
+    color(100, 0, 255),
+    color(255, 0, 255),
+    10
+  );
+
+  ////////////////////////////////////////////////////////////////////
+
+  sistemaC[0] = new SistemaCor(
+    color(#191a1f),
+    color(8, 0, 8),
+    color(190, 0, 190),
+    color(#191a1f),
+    1
+  );
+
+  sistemaJC[0] = new SistemaCor(
+    color(#f07f1d),
+    color(25, 10, 0),
+    color(100, 250, 10),
+    color(#f07f1d),
+    10
+  );
+
+  /////////////////
+
+  sistemaC[1] = new SistemaCor(
+    color(#24212b),
+    color(8, 0, 10),
+    color(180, 0, 200),
+    color(#24212b),
+    1
+  );
+
+  sistemaJC[1] = new SistemaCor(
+    color(#36f01d),
+    color(5, 20, 0),
+    color(40, 250, 20),
+    color(#36f01d),
+    10
+  );
+}
+
+
+/*
+  manipular o sistemaP[0] com o teclado
+
+  AMBIENT  (R, G, B) => (8, 9, 0)
+  SPECULAR (R, G, B) => (I, O, P)
+  DIFFUSE  (R, G, B) => (K, L, Ç)
+*/
+
+void manipularSP0(){
+  color amb = sistemaP[0].ambient;
+
+  if(keys['7'] && red(amb) >= 0 && red(amb) <= 255){
+    if(keys[SHIFT] && red(amb) > 0) sistemaP[0].ambient = color(red(amb) - 1, blue(amb), green(amb));
+    else if(red(amb) < 255) sistemaP[0].ambient = color(red(amb) + 1, blue(amb), green(amb));
+  }
+}

@@ -43,6 +43,7 @@ class Estrada{
     void desenhar(){
         push();
             tVox(pos);
+            ambient(#767e8a);
             fill(#767e8a);
             caixaVOX(
                 new PVector(0, 0, 0),

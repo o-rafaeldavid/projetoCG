@@ -42,18 +42,23 @@ PImage[] mao = new PImage[2];
     quais as componentes da mesma, visto que não ocupa tanto espaço
 */
 class SistemaCor {
-    color emissive, specular, solida, janela;
+    color ambient, emissive, specular, diffuse;
+    float shininess;
 
-    SistemaCor(color emissive, color specular, color solida, color janela){
+    SistemaCor(color ambient, color emissive, color specular, color diffuse, float shininess){
+        this.ambient = ambient;
         this.emissive = emissive;
         this.specular = specular;
-        this.solida = solida;
-        this.janela = janela;
+        this.diffuse = diffuse;
+        this.shininess = shininess;
     }
 }
 
 //criação dos sistemas de cor utilizados no projeto
-SistemaCor sistemaCiano, sistemaMagenta;
+SistemaCor[] sistemaP = new SistemaCor[2];
+SistemaCor[] sistemaJ = new SistemaCor[2];
+SistemaCor[] sistemaC = new SistemaCor[2];
+SistemaCor[] sistemaJC = new SistemaCor[2];
 
 
 

@@ -20,11 +20,12 @@ class Carro{
     float raioPneu = alturaCarro * parametroPneu;
     float rotPneus = 0;
 
-    color corCarro, corJanela;
+    SistemaCor sCarro, sJanela;
+    color spotLight, specularLight;
 
 
 
-    Carro(PVector pos, Estrada E, float epsilon, float incremento, float incrementoAngular, color corCarro, color corJanela){
+    Carro(PVector pos, Estrada E, float epsilon, float incremento, float incrementoAngular, SistemaCor sCarro, SistemaCor sJanela, color spotLight, color specularLight){
         this.pos = pos;
         
         this.E = E;
@@ -34,8 +35,11 @@ class Carro{
         this.incremento = incremento;
         this.incrementoAngular = incrementoAngular;
 
-        this.corCarro = corCarro;
-        this.corJanela = corJanela;
+        this.sCarro = sCarro;
+        this.sJanela = sJanela;
+
+        this.spotLight = spotLight;
+        this.specularLight = specularLight;
     }
 
     void desenhar(){
@@ -61,13 +65,46 @@ class Carro{
             tVox(pos);
             rotateY(epsilon);
             tVox(new PVector(-pos.x, -pos.y, -pos.z));
+            push();
+                translacao(pos.x + dims[0] * .5f, pos.y + raioPneu * 0.5f, pos.z);
+                lightSpecular(red(specularLight), green(specularLight), blue(specularLight));
+                spotLight(
+                    red(spotLight), green(spotLight), blue(spotLight),
+                    0, 0, 0,
+                    1, 0, 0,
+                    PI,
+                    10
+                );
+            pop();
 
-            fill(corCarro);
+            //carro
+            fill(sCarro.diffuse);
+            emissive(sCarro.emissive);
+            specular(sCarro.specular);
+            ambient(sCarro.ambient);
+            shininess(sCarro.shininess);
             caixaVOX(pos, new PVector(dims[0], alturaCarro, dims[1]));
             caixaVOX(new PVector(pos.x - 0.6, pos.y - alturaCarro * 0.2 - alturaCarro * 0.6 - alturaCarro * 0.5, pos.z), new PVector(dims[0] - 1.2, alturaCarro * 0.4, dims[1]));
-            fill(corJanela);
+
+
+            //janela
+            fill(sJanela.diffuse);
+            emissive(sJanela.emissive);
+            specular(sJanela.specular);
+            ambient(sJanela.ambient);
+            shininess(sJanela.shininess);
             caixaVOX(new PVector(pos.x - 0.8, pos.y - alturaCarro * 0.3 - alturaCarro * 0.5, pos.z), new PVector(dims[0] - 1.6, alturaCarro * 0.6, dims[1]));
+            push();
+                translacao(pos.x + dims[0] * .5f, pos.y , pos.z);
+                caixaVOX(new PVector(-0.2, 0, 1.2), new PVector(raioPneu * 0.8, raioPneu * 0.8, raioPneu * 0.8));
+                caixaVOX(new PVector(-0.2, 0, -1.2), new PVector(raioPneu * 0.8, raioPneu * 0.8, raioPneu * 0.8));
+            pop();
+
+            //pneus
             fill(20);
+            ambient(20);
+            emissive(0, 0, 0);
+            specular(0, 0, 0);
             for(int i = 1; i <= 2; i++){
                 pushMatrix();
                     translacao(pos.x + pow(-1, i) * alturaCarro * 2 * parametroPneu, pos.y + raioPneu * 0.5f, pos.z);
