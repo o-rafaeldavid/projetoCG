@@ -31,8 +31,6 @@ PMatrix3D matrixEscala = new PMatrix3D(
 
 PImage[] mao = new PImage[2];
 
-
-
 /*
         SistemaCor é uma class que foi criada com o intuito de guardar esquemas de cor
     para os prédios desde de elementos básicos de preenchimento (fill) para as paredes
@@ -64,4 +62,5 @@ SistemaCor[] sistemaJC = new SistemaCor[2];
 
 Carro popo0, popo1;
 
+PImage estradaTextura;
 Estrada estrada;

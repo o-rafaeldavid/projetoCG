@@ -47,7 +47,7 @@ class Estrada{
             fill(#767e8a);
             caixaVOX(
                 new PVector(0, 0, 0),
-                new PVector(dimensao, hEstrada, largura)
+                new PVector(dimensao - largura, hEstrada, largura)
             );
 
             int in = 1, out = 1;
@@ -57,7 +57,7 @@ class Estrada{
             do{
                 caixaVOX(
                     new PVector(0, 0, in * dimensao * 0.5f),
-                    new PVector(dimensao, hEstrada, largura)
+                    new PVector(dimensao - largura, hEstrada, largura)
                 );
 
                 caixaVOX(

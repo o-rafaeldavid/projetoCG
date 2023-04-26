@@ -230,9 +230,49 @@ void definirSistemas(){
 
 void manipularSP0(){
   color amb = sistemaP[0].ambient;
+  color spc = sistemaP[0].specular;
+  color dif = sistemaP[0].diffuse;
 
+  //  AMBIENT
   if(keys['7'] && red(amb) >= 0 && red(amb) <= 255){
     if(keys[SHIFT] && red(amb) > 0) sistemaP[0].ambient = color(red(amb) - 1, blue(amb), green(amb));
     else if(red(amb) < 255) sistemaP[0].ambient = color(red(amb) + 1, blue(amb), green(amb));
+  }
+  if(keys['8'] && blue(amb) >= 0 && blue(amb) <= 255){
+    if(keys[SHIFT] && blue(amb) > 0) sistemaP[0].ambient = color(red(amb), blue(amb) - 1, green(amb));
+    else if(blue(amb) < 255) sistemaP[0].ambient = color(red(amb), blue(amb) + 1, green(amb));
+  }
+  if(keys['9'] && green(amb) >= 0 && green(amb) <= 255){
+    if(keys[SHIFT] && green(amb) > 0) sistemaP[0].ambient = color(red(amb), blue(amb), green(amb)- 1);
+    else if(green(amb) < 255) sistemaP[0].ambient = color(red(amb), blue(amb), green(amb) + 1);
+  }
+
+
+  //  SPECULAR
+  if(keys['I'] && red(spc) >= 0 && red(spc) <= 255){
+    if(keys[SHIFT] && red(spc) > 0) sistemaP[0].specular = color(red(spc) - 1, blue(spc), green(spc));
+    else if(red(spc) < 255) sistemaP[0].specular = color(red(spc) + 1, blue(spc), green(spc));
+  }
+  if(keys['O'] && blue(spc) >= 0 && blue(spc) <= 255){
+    if(keys[SHIFT] && blue(spc) > 0) sistemaP[0].specular = color(red(spc), blue(spc) - 1, green(spc));
+    else if(blue(spc) < 255) sistemaP[0].specular = color(red(spc), blue(spc) + 1, green(spc));
+  }
+  if(keys['P'] && green(spc) >= 0 && green(spc) <= 255){
+    if(keys[SHIFT] && green(spc) > 0) sistemaP[0].specular = color(red(spc), blue(spc), green(spc) - 1);
+    else if(green(spc) < 255) sistemaP[0].specular = color(red(spc), blue(spc), green(spc) + 1);
+  }
+
+  //  DIFFUSE
+  if(keys['K'] && red(dif) >= 0 && red(dif) <= 255){
+    if(keys[SHIFT] && red(dif) > 0) sistemaP[0].diffuse = color(red(dif) - 1, blue(dif), green(dif));
+    else if(red(dif) < 255) sistemaP[0].diffuse = color(red(dif) + 1, blue(dif), green(dif));
+  }
+  if(keys['L'] && blue(dif) >= 0 && blue(dif) <= 255){
+    if(keys[SHIFT] && blue(dif) > 0) sistemaP[0].diffuse = color(red(dif), blue(dif) - 1, green(dif));
+    else if(blue(dif) < 255) sistemaP[0].diffuse = color(red(dif), blue(dif) + 1, green(dif));
+  }
+  if(keys['Ç'] && green(dif) >= 0 && green(dif) <= 255){
+    if(keys[SHIFT] && green(dif) > 0) sistemaP[0].diffuse = color(red(dif), blue(dif), green(dif) - 1);
+    else if(green(dif) < 255) sistemaP[0].diffuse = color(red(dif), blue(dif), green(dif) + 1);
   }
 }

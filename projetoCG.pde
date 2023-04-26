@@ -16,7 +16,7 @@ void setup(){
   popo0 = new Carro(new PVector(0, 0, -2.5), estrada, 0, 0.2, 0.02, sistemaC[0], sistemaJC[0], color(200, 120, 0), color(100, 70, 40));
   popo1 = new Carro(new PVector(0, 0, 2.5), estrada, PI, 0.25, 0.03, sistemaC[1], sistemaJC[1], color(40, 255, 0), color(70, 255, 50));
 
-
+  estradaTextura = loadImage("textura/estrada.jpg");
   //showPredios = false;
 }
 
@@ -35,6 +35,12 @@ void draw(){
   ambientLight(255, 197, 255);
   lightSpecular(15, 0, 30);
   directionalLight(230, 120, 180, -1, -1, 0.5);
+
+  pushMatrix();
+  rotateY(frameCount * 0.05);
+  pointLight(90, 60, 200, 0, 0, 100 * vox);
+  //caixaVOX(new PVector(0, 0, 100), new PVector(10, 10, 10));
+  popMatrix();
 
   //chão
   ambient(#0e0b17);
