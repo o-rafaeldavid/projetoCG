@@ -62,5 +62,5 @@ SistemaCor[] sistemaJC = new SistemaCor[2];
 
 Carro popo0, popo1;
 
-PImage estradaTextura;
+PImage estradaTextura, estradaCantoTextura;
 Estrada estrada;

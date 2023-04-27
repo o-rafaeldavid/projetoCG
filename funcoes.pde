@@ -14,6 +14,26 @@ void quadri(PVector P, float[] dim, PVector rot){
   popMatrix();
 }
 
+void quadriTextura(PVector P, float[] dim, PVector rot, PImage textura, int[] vezes){
+  if(textura == null || vezes == null) quadri(P, dim, rot);
+  else{
+    float[] hDim = {dim[0] * 0.5, dim[1] * 0.5};
+    pushMatrix();
+      t(P);
+      rotateX(rot.x);
+      rotateY(rot.y);
+      rotateZ(rot.z);
+      beginShape(QUADS);
+        texture(textura);
+        vertex(hDim[0], 0, hDim[1], 0, vezes[1]);
+        vertex(hDim[0], 0, -hDim[1], vezes[0], vezes[1]);
+        vertex(-hDim[0], 0, -hDim[1], vezes[0], 0);
+        vertex(-hDim[0], 0, hDim[1], 0, 0);
+      endShape();
+    popMatrix();
+  }
+}
+
 void quadriVOX(PVector P, float[] dim, PVector rot){
   quadri(new PVector(P.x * vox, P.y * vox, P.z * vox), new float[]{dim[0] * vox, dim[1] * vox}, new PVector(rot.x, rot.y, rot.z));
 }
@@ -47,8 +67,46 @@ void caixa(PVector P, PVector dim){
   popMatrix();
 }
 
+void caixaTextura(PVector P, PVector dim, PImage[] textura, int[][] vezes){
+  PVector Q = new PVector(dim.x * 0.5, dim.y * 0.5, dim.z * 0.5);
+  
+  pushMatrix();
+    t(P);
+    for(int i = 0; i < 2; i++){
+      //FACES PERPENDICULARES A x
+      pushMatrix();
+        rotateY(i * PI);
+        float[] a = {dim.y, dim.z};
+        quadriTextura(new PVector(Q.x, 0, 0), a, new PVector(0, 0, HALF_PI), textura[i], vezes[i]);
+      popMatrix();
+      //FACES PERPENDICULARES A z
+      pushMatrix();
+        rotateY(i * PI);
+        float[] b = {dim.x, dim.y};
+        quadriTextura(new PVector(0, 0, Q.z), b, new PVector(HALF_PI, 0, 0), textura[i + 2], vezes[i + 2]);
+      popMatrix();
+      //FACES PERPENDICULARES A y
+      pushMatrix();
+        rotateX(i * PI);
+        float[] c = {dim.x, dim.z};
+        quadriTextura(new PVector(0, Q.y, 0), c, new PVector(0, 0, 0), textura[i + 4], vezes[i + 4]);
+      popMatrix();
+    }
+    
+  popMatrix();
+}
+
 void caixaVOX(PVector P, PVector dim){
   caixa(new PVector(P.x * vox, P.y * vox, P.z * vox), new PVector(dim.x * vox, dim.y * vox, dim.z * vox));
+}
+
+void caixaTexturaVOX(PVector P, PVector dim, PImage[] textura, int[][] vezes){
+  caixaTextura(
+      new PVector(P.x * vox, P.y * vox, P.z * vox),
+      new PVector(dim.x * vox, dim.y * vox, dim.z * vox),
+      textura,
+      vezes
+  );
 }
 
 // Função tipo translate() para receber um PVector e ir logo direto
@@ -150,16 +208,16 @@ void vazio(){}
 void definirSistemas(){
   sistemaP[0] = new SistemaCor(
     color(#0a1024),
-    color(15, 0, 5),
-    color(255, 0, 255),
+    color(5, 2, 15),
+    color(255, 3, 255),
     color(#0a1024),
     1
   );
 
   sistemaJ[0] = new SistemaCor(
     color(0, 255, 255),
-    color(15, 0, 5),
-    color(255, 0, 255),
+    color(5, 1, 15),
+    color(255, 10, 255),
     color(0, 255, 255),
     10
   );
@@ -168,16 +226,16 @@ void definirSistemas(){
 
   sistemaP[1] = new SistemaCor(
     color(#150a24),
-    color(2, 0, 15),
-    color(100, 0, 255),
+    color(2, 1, 15),
+    color(100, 1, 255),
     color(#150a24),
     1
   );
 
   sistemaJ[1] = new SistemaCor(
     color(255, 0, 255),
-    color(2, 0, 15),
-    color(100, 0, 255),
+    color(2, 1, 15),
+    color(100, 8, 255),
     color(255, 0, 255),
     10
   );

@@ -43,34 +43,68 @@ class Estrada{
     void desenhar(){
         push();
             tVox(pos);
-            ambient(#767e8a);
+            ambient(128);
             fill(#767e8a);
-            caixaVOX(
+
+            caixaTexturaVOX(
                 new PVector(0, 0, 0),
-                new PVector(dimensao - largura, hEstrada, largura)
+                new PVector(dimensao - largura, hEstrada, largura),
+                new PImage[] {
+                    null, null, null, null, null, estradaTextura
+                },
+                new int[][]{
+                    null, null, null, null, null, {1, 3}
+                }
             );
 
             int in = 1, out = 1;
 
             do{
-            rotateY(map(out, 1, 2, 0, HALF_PI));
-            do{
-                caixaVOX(
-                    new PVector(0, 0, in * dimensao * 0.5f),
-                    new PVector(dimensao - largura, hEstrada, largura)
-                );
+                rotateY(map(out, 1, 2, 0, HALF_PI));
+                do{
+                    caixaTexturaVOX(
+                        new PVector(0, 0, in * dimensao * 0.5f),
+                        new PVector(dimensao - largura, hEstrada, largura),
+                        new PImage[] {
+                            null, null, null, null, null, estradaTextura
+                        },
+                        new int[][]{
+                            null, null, null, null, null, {1, 3}
+                        }
+                    );
 
-                caixaVOX(
-                    new PVector(in * dimensao * 0.5f, 0, in * dimensao * 0.5f),
-                    new PVector(largura, hEstrada, largura)
-                );
-                in *= -1;
-            }
-            while(in != 1);
+                    
 
-            out++;
+                    caixaTexturaVOX(
+                        new PVector(in * dimensao * 0.5f, 0, in * dimensao * 0.5f),
+                        new PVector(largura, hEstrada, largura),
+                        new PImage[] {
+                            null, null, null, null, null, estradaCantoTextura
+                        },
+                        new int[][]{
+                            null, null, null, null, null, {in, in}
+                        }
+                    );
+
+                    in *= -1;
+                }
+                while(in != 1);
+
+                out++;
             }
             while(out < 3);
+
+            pointLight(0, 0, 255,
+                -1 * (dimensao + largura) * 0.5f * vox, -2 * vox, -1 * (dimensao + largura) * 0.5f * vox
+            );
+
+            
+            /*
+            caixaVOX(
+                new PVector(-1 * (dimensao + largura) * 0.5f, -2 * vox, -1 * (dimensao + largura) * 0.5f),
+                new PVector(10, hEstrada, 10)
+            );
+            */
         pop();
     }
 

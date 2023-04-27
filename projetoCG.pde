@@ -17,7 +17,11 @@ void setup(){
   popo1 = new Carro(new PVector(0, 0, 2.5), estrada, PI, 0.25, 0.03, sistemaC[1], sistemaJC[1], color(40, 255, 0), color(70, 255, 50));
 
   estradaTextura = loadImage("textura/estrada.jpg");
+  estradaCantoTextura = loadImage("textura/estrada_canto.jpg");
   //showPredios = false;
+
+  textureMode(NORMAL);
+  textureWrap(REPEAT);
 }
 
 void draw(){
@@ -42,6 +46,15 @@ void draw(){
   //caixaVOX(new PVector(0, 0, 100), new PVector(10, 10, 10));
   popMatrix();
 
+  popo0.desenhar();
+  popo1.desenhar();
+  
+  //geração da estrada
+  emissive(0, 0, 10);
+  specular(0, 0, 255);
+  estrada.desenhar();
+  //estrada.debugPontos();
+
   //chão
   ambient(#0e0b17);
   emissive(2, 0, 7);
@@ -53,7 +66,6 @@ void draw(){
       new PVector(100, 10.5, 100)
     );
   popStyle();
-
 
   //predio tipo 1 no bloco + proximo da camara (na pos inicial)
   predio(0, new PVector(-19, 0, 15), new float[]{17.5}, 40, sistemaP[0], sistemaJ[0],
@@ -90,17 +102,6 @@ void draw(){
       });
     popMatrix();
   }
-  
-
-
-  //geração da estrada
-  emissive(0, 0, 10);
-  specular(0, 0, 255);
-  estrada.desenhar();
-  //estrada.debugPontos();
-
-  popo0.desenhar();
-  popo1.desenhar();
 
   //bloco '2' (mais afastado da camera na pos inicial)
   pushMatrix();
