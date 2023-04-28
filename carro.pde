@@ -84,6 +84,16 @@ class Carro{
             ambient(sCarro.ambient);
             shininess(sCarro.shininess);
             caixaVOX(pos, new PVector(dims[0], alturaCarro, dims[1]));
+            caixaTexturaVOX(
+                pos,
+                new PVector(dims[0], alturaCarro, dims[1]),
+                new PImage[] {
+                    matte[0], matte[0], matte[1], matte[1], null, null
+                },
+                new int[][]{
+                    {1, 1}, {1, 1}, {1, 1}, {1, 1}, null, null
+                }
+            );
             caixaVOX(new PVector(pos.x - 0.6, pos.y - alturaCarro * 0.2 - alturaCarro * 0.6 - alturaCarro * 0.5, pos.z), new PVector(dims[0] - 1.2, alturaCarro * 0.4, dims[1]));
 
 
@@ -93,7 +103,17 @@ class Carro{
             specular(sJanela.specular);
             ambient(sJanela.ambient);
             shininess(sJanela.shininess);
-            caixaVOX(new PVector(pos.x - 0.8, pos.y - alturaCarro * 0.3 - alturaCarro * 0.5, pos.z), new PVector(dims[0] - 1.6, alturaCarro * 0.6, dims[1]));
+            caixaTexturaVOX(
+                new PVector(pos.x - 0.8, pos.y - alturaCarro * 0.3 - alturaCarro * 0.5, pos.z),
+                new PVector(dims[0] - 1.6, alturaCarro * 0.6, dims[1]),
+                new PImage[] {
+                    vidro, vidro, vidro, vidro, null, null
+                },
+                new int[][]{
+                    {4, 2}, {4, 2}, {2, 5}, {2, 5}, null, null
+                }
+            );
+
             push();
                 translacao(pos.x + dims[0] * .5f, pos.y , pos.z);
                 caixaVOX(new PVector(-0.2, 0, 1.2), new PVector(raioPneu * 0.8, raioPneu * 0.8, raioPneu * 0.8));

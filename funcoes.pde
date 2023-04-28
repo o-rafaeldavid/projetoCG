@@ -169,6 +169,24 @@ void setCamera(){
   1000, py, 1000,
   0,   yLookAt,    0,
   upX, 1,    upZ);
+
+  //texto
+  push();
+    ambient(255);
+    emissive(255);
+    translate(900, 0, 900);
+    rotateY(QUARTER_PI);
+    fill(255);
+    textSize(20);
+    //colocar o texto relativo ao sistemaP[0]
+    text("Características dos prédios tipo 0:\nAmbiente  (8, 9, 0) > R:" + red(sistemaP[0].ambient) + " G:" + green(sistemaP[0].ambient) + " B:" + blue(sistemaP[0].ambient)
+    + "\nEspecular (I, O, P) > R:" + red(sistemaP[0].specular) + " G:" + green(sistemaP[0].specular) + " B:" + blue(sistemaP[0].specular)
+    + "\nDifusa        (K, L, Ç) > R:" + red(sistemaP[0].diffuse) + " G:" + green(sistemaP[0].diffuse) + " B:" + blue(sistemaP[0].diffuse)
+    + "\ncom o SHIFT diminui", -850, py + 300, 0);
+    //colocar o texto relativo às teclas
+    text("Restantes controlos:\nCTRL + Mouse1/2 > roda a cena\nScroll > zoom-in e zoom-out\nSetas > rodam a câmara\nB > liga e desliga o candeeiro",
+    500, py + 300, 0);
+  pop();
 }
 
   //gira a camera perante o eixo da direção do olhar
@@ -290,47 +308,97 @@ void manipularSP0(){
   color amb = sistemaP[0].ambient;
   color spc = sistemaP[0].specular;
   color dif = sistemaP[0].diffuse;
-
+  
   //  AMBIENT
-  if(keys['7'] && red(amb) >= 0 && red(amb) <= 255){
-    if(keys[SHIFT] && red(amb) > 0) sistemaP[0].ambient = color(red(amb) - 1, blue(amb), green(amb));
-    else if(red(amb) < 255) sistemaP[0].ambient = color(red(amb) + 1, blue(amb), green(amb));
-  }
-  if(keys['8'] && blue(amb) >= 0 && blue(amb) <= 255){
-    if(keys[SHIFT] && blue(amb) > 0) sistemaP[0].ambient = color(red(amb), blue(amb) - 1, green(amb));
-    else if(blue(amb) < 255) sistemaP[0].ambient = color(red(amb), blue(amb) + 1, green(amb));
+  if(keys['8'] && red(amb) >= 0 && red(amb) <= 255){
+    if(keys[SHIFT] && red(amb) > 0) sistemaP[0].ambient = color(red(amb) - 1, green(amb), blue(amb));
+    else if(red(amb) < 255) sistemaP[0].ambient = color(red(amb) + 1, green(amb), blue(amb));
   }
   if(keys['9'] && green(amb) >= 0 && green(amb) <= 255){
-    if(keys[SHIFT] && green(amb) > 0) sistemaP[0].ambient = color(red(amb), blue(amb), green(amb)- 1);
-    else if(green(amb) < 255) sistemaP[0].ambient = color(red(amb), blue(amb), green(amb) + 1);
+    if(keys[SHIFT] && green(amb) > 0) sistemaP[0].ambient = color(red(amb), green(amb) - 1, blue(amb));
+    else if(green(amb) < 255) sistemaP[0].ambient = color(red(amb), green(amb) + 1, blue(amb));
+  }
+  if(keys['0'] && blue(amb) >= 0 && blue(amb) <= 255){
+    if(keys[SHIFT] && blue(amb) > 0) sistemaP[0].ambient = color(red(amb), green(amb), blue(amb)- 1);
+    else if(blue(amb) < 255) sistemaP[0].ambient = color(red(amb), green(amb), blue(amb) + 1);
   }
 
 
   //  SPECULAR
   if(keys['I'] && red(spc) >= 0 && red(spc) <= 255){
-    if(keys[SHIFT] && red(spc) > 0) sistemaP[0].specular = color(red(spc) - 1, blue(spc), green(spc));
-    else if(red(spc) < 255) sistemaP[0].specular = color(red(spc) + 1, blue(spc), green(spc));
+    if(keys[SHIFT] && red(spc) > 0) sistemaP[0].specular = color(red(spc) - 1, green(spc), blue(spc));
+    else if(red(spc) < 255) sistemaP[0].specular = color(red(spc) + 1, green(spc), blue(spc));
   }
-  if(keys['O'] && blue(spc) >= 0 && blue(spc) <= 255){
-    if(keys[SHIFT] && blue(spc) > 0) sistemaP[0].specular = color(red(spc), blue(spc) - 1, green(spc));
-    else if(blue(spc) < 255) sistemaP[0].specular = color(red(spc), blue(spc) + 1, green(spc));
+  if(keys['O'] && green(spc) >= 0 && green(spc) <= 255){
+    if(keys[SHIFT] && green(spc) > 0) sistemaP[0].specular = color(red(spc), green(spc) - 1, blue(spc));
+    else if(green(spc) < 255) sistemaP[0].specular = color(red(spc), green(spc) + 1, blue(spc));
   }
-  if(keys['P'] && green(spc) >= 0 && green(spc) <= 255){
-    if(keys[SHIFT] && green(spc) > 0) sistemaP[0].specular = color(red(spc), blue(spc), green(spc) - 1);
-    else if(green(spc) < 255) sistemaP[0].specular = color(red(spc), blue(spc), green(spc) + 1);
+  if(keys['P'] && blue(spc) >= 0 && blue(spc) <= 255){
+    if(keys[SHIFT] && blue(spc) > 0) sistemaP[0].specular = color(red(spc), green(spc), blue(spc) - 1);
+    else if(blue(spc) < 255) sistemaP[0].specular = color(red(spc), green(spc), blue(spc) + 1);
   }
 
   //  DIFFUSE
   if(keys['K'] && red(dif) >= 0 && red(dif) <= 255){
-    if(keys[SHIFT] && red(dif) > 0) sistemaP[0].diffuse = color(red(dif) - 1, blue(dif), green(dif));
-    else if(red(dif) < 255) sistemaP[0].diffuse = color(red(dif) + 1, blue(dif), green(dif));
+    if(keys[SHIFT] && red(dif) > 0) sistemaP[0].diffuse = color(red(dif) - 1, green(dif), blue(dif));
+    else if(red(dif) < 255) sistemaP[0].diffuse = color(red(dif) + 1, green(dif), blue(dif));
   }
-  if(keys['L'] && blue(dif) >= 0 && blue(dif) <= 255){
-    if(keys[SHIFT] && blue(dif) > 0) sistemaP[0].diffuse = color(red(dif), blue(dif) - 1, green(dif));
-    else if(blue(dif) < 255) sistemaP[0].diffuse = color(red(dif), blue(dif) + 1, green(dif));
+  if(keys['L'] && green(dif) >= 0 && green(dif) <= 255){
+    if(keys[SHIFT] && green(dif) > 0) sistemaP[0].diffuse = color(red(dif), green(dif) - 1, blue(dif));
+    else if(green(dif) < 255) sistemaP[0].diffuse = color(red(dif), green(dif) + 1, blue(dif));
   }
-  if(keys['Ç'] && green(dif) >= 0 && green(dif) <= 255){
-    if(keys[SHIFT] && green(dif) > 0) sistemaP[0].diffuse = color(red(dif), blue(dif), green(dif) - 1);
-    else if(green(dif) < 255) sistemaP[0].diffuse = color(red(dif), blue(dif), green(dif) + 1);
+  if(keys[59] && blue(dif) >= 0 && blue(dif) <= 255){
+    if(keys[SHIFT] && blue(dif) > 0) sistemaP[0].diffuse = color(red(dif), green(dif), blue(dif) - 1);
+    else if(blue(dif) < 255) sistemaP[0].diffuse = color(red(dif), green(dif), blue(dif) + 1);
   }
+}
+
+//////////////////////////////////////
+
+// criar um candeeiro
+
+void candeeiroVOX(PVector P, float altura, float a_lampada){
+  push();
+    tVox(P);
+
+    if(candeeiros){
+      /*
+      pointLight(10, 10, 0,
+          0, -1 * (altura + 2 * a_lampada) * vox, 0
+      );
+      */
+
+      spotLight(10, 10, 0,
+      0, -1 * (altura + 2 * a_lampada) * vox, 0,
+      0, 1, 0,
+      PI,
+      0.25);
+
+      fill(255, 190, 40);
+      ambient(255, 190, 40);
+      emissive(6, 14, 2);
+      specular(2, 8, 0);
+      brightness(100);
+    }
+    else{
+      fill(100);
+      ambient(70, 70, 70);
+      emissive(0);
+      specular(0);
+    }
+
+    caixaVOX(
+      new PVector(0, -1 * (altura + a_lampada * .5f), 0),
+      new PVector(a_lampada, a_lampada, a_lampada)
+    );
+
+    fill(20);
+    ambient(50, 50, 50);
+    emissive(0);
+    specular(0);
+    caixaVOX(
+      new PVector(0, -altura * .5f, 0),
+      new PVector(.5f, altura, .5f)
+    );
+  pop();
 }

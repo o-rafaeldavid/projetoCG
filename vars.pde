@@ -58,9 +58,11 @@ SistemaCor[] sistemaJ = new SistemaCor[2];
 SistemaCor[] sistemaC = new SistemaCor[2];
 SistemaCor[] sistemaJC = new SistemaCor[2];
 
-
-
+PImage[] matte = new PImage[2];
+PImage vidro;
 Carro popo0, popo1;
 
 PImage estradaTextura, estradaCantoTextura;
 Estrada estrada;
+
+boolean candeeiros = true;

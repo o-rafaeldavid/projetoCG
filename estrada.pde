@@ -45,6 +45,8 @@ class Estrada{
             tVox(pos);
             ambient(128);
             fill(#767e8a);
+            emissive(7, 4, 7);
+            specular(8, 2, 10);
 
             caixaTexturaVOX(
                 new PVector(0, 0, 0),
@@ -94,17 +96,17 @@ class Estrada{
             }
             while(out < 3);
 
+            /*
             pointLight(0, 0, 255,
                 -1 * (dimensao + largura) * 0.5f * vox, -2 * vox, -1 * (dimensao + largura) * 0.5f * vox
             );
-
-            
-            /*
-            caixaVOX(
-                new PVector(-1 * (dimensao + largura) * 0.5f, -2 * vox, -1 * (dimensao + largura) * 0.5f),
-                new PVector(10, hEstrada, 10)
-            );
             */
+            candeeiroVOX(
+                new PVector(-1 * (dimensao + largura) * 0.5f, 0, -1 * (dimensao + largura) * 0.5f),
+                6,
+                1
+            );
+            
         pop();
     }
 

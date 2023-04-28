@@ -4,20 +4,21 @@ void settings(){
 
 void setup(){
   surface.setTitle("Projeto de CG");
-  
+  definirSistemas();
   setCamera();
   
   mao[0] = loadImage("cursors/mao_aberta.png");
   mao[1] = loadImage("cursors/mao_fechada.png");
 
-  definirSistemas();
-
   estrada = new Estrada(new PVector(0, -.4f, 0), 10, 65);
-  popo0 = new Carro(new PVector(0, 0, -2.5), estrada, 0, 0.2, 0.02, sistemaC[0], sistemaJC[0], color(200, 120, 0), color(100, 70, 40));
-  popo1 = new Carro(new PVector(0, 0, 2.5), estrada, PI, 0.25, 0.03, sistemaC[1], sistemaJC[1], color(40, 255, 0), color(70, 255, 50));
+  popo0 = new Carro(new PVector(0, 0, -2.5), estrada, 0, 0.2, 0.023, sistemaC[0], sistemaJC[0], color(200, 120, 0), color(100, 70, 40));
+  popo1 = new Carro(new PVector(0, 0, 2.5), estrada, PI, 0.35, 0.04, sistemaC[1], sistemaJC[1], color(40, 255, 0), color(70, 255, 50));
 
   estradaTextura = loadImage("textura/estrada.jpg");
   estradaCantoTextura = loadImage("textura/estrada_canto.jpg");
+  vidro = loadImage("textura/vidro.jpg");
+  matte[0] = loadImage("textura/matte0.jpg");
+  matte[1] = loadImage("textura/matte1.jpg");
   //showPredios = false;
 
   textureMode(NORMAL);
@@ -169,6 +170,8 @@ void keyReleased(){
   if(key == 'f' || key == 'F') printCamera();
 
   if(keyCode == CONTROL) cursor(ARROW);
+
+  if(key == 'b' || key == 'B') candeeiros = !candeeiros;
 }
 
 void mouseDragged(){
